@@ -21,6 +21,7 @@ select job_title 업무이름,
 from jobs order by max_salary desc;
 
 
+
 /*
 문제3.
 담당 매니저가 배정되어있으나 커미션비율이 없고, 월급이 3000초과인 직원의 이름, 매니저
@@ -33,6 +34,7 @@ select first_name 이름,
 from employees where manager_id is not null and commission_pct is null and salary>=3000;
 
 
+
 /*
 문제4.
 최고월급(max_salary)이 10000 이상인 업무의 이름(job_title)과 최고월급(max_salary)을 최
@@ -41,6 +43,7 @@ from employees where manager_id is not null and commission_pct is null and salar
 select job_title 업무의이름,
        max_salary 최고월급
 from jobs where max_salary>=10000 order by max_salary desc;
+
 
 
 /*
@@ -52,6 +55,7 @@ select first_name 직원이름,
        salary 월급,
        nvl(commission_pct, 0) 커미션퍼센트
 from employees where salary<14000 and salary>=10000 order by salary desc;
+
 
 
 /*
@@ -66,6 +70,7 @@ select first_name 이름,
 from employees where department_id in (10, 90, 100);
 
 
+
 /*
 문제7.
 이름(first_name)에 S 또는 s 가 들어가는 직원의 이름, 월급을 나타내시오
@@ -73,6 +78,7 @@ from employees where department_id in (10, 90, 100);
 select first_name 이름,
        salary 월급
 from employees where first_name like '%s%' or first_name like 's%' or first_name like '%s';
+
 
 
 /*
@@ -83,6 +89,7 @@ select department_name
 from departments order by length(department_name) desc;
 
 
+
 /*
 문제9.
 정확하지 않지만, 지사가 있을 것으로 예상되는 나라들을 나라이름을 대문자로 출력하고
@@ -90,6 +97,7 @@ from departments order by length(department_name) desc;
 */
 select upper(country_name)
 from countries order by country_name asc;
+
 
 
 /*
