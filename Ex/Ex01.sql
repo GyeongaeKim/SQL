@@ -296,6 +296,13 @@ from dual;
 
 
 --■ 일반함수>NVL(컬럼명, null일때값)/NVL2(컬럼명, null아닐때값, null일때 값)
+--• NVL(조사할 컬럼, NULL 일 경우 치환할 값)
+--• NVL2(조사할 컬럼, NULL이 아닐때 치환할 값, NULL일때 치환할 값)
+select first_name,
+       commission_pct,
+       nvl(commission_pct, 0),
+       nvl2(commission_pct, 100, 0)
+from employees;
 
 
 
