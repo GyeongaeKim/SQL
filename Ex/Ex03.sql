@@ -52,6 +52,94 @@ order by e.salary desc;
 
 
 
+/********************************
+*** JOIN ***
+********************************/
+--equi join 데이터 106개 --> null은 포함되지 않는다
+select e.first_name,
+       e.department_id,
+       d.department_name,
+       d.department_id
+from employees e, departments d
+where e.department_id=d.department_id;
+
+
+--■ right outer join
+--• 왼쪽 테이블의 모든 row를 결과 테이블에 나타냄
+select e.first_name,
+       e.department_id,
+       d.department_name,
+       d.department_id
+from employees e left outer join departments d
+    on e.department_id=d.department_id;
+    
+select e.first_name,
+       e.department_id,
+       d.department_name,
+       d.department_id
+from employees e, departments d
+where e.department_id=d.department_id(+);
+
+
+
+--■ right outer join
+--• 오른쪽 테이블의 모든 row를 결과 테이블에 나타냄
+select e.first_name,
+       e.department_id,
+       d.department_name,
+       d.department_id
+from employees e right outer join departments d
+    on e.department_id=d.department_id;
+
+select e.first_name,
+       e.department_id,
+       d.department_name,
+       d.department_id
+from employees e, departments d
+where e.department_id(+)=d.department_id;
+
+
+--■ right outer join  left outer join
+select e.first_name,
+       e.department_id,
+       d.department_name,
+       d.department_id
+from departments d left outer join employees e
+    on e.department_id=d.department_id;
+
+
+--■ full outer join
+select e.first_name,
+       e.department_id,
+       d.department_name,
+       d.department_id
+from employees e full outer join departments d
+    on e.department_id=d.department_id;
+
+
+----■ Self join
+--• 자기자신과 Join 
+--• Alias를 사용할 수 밖에 없음
+select *
+from employees e, employees m
+where e.manager_id=m.employee_id;
+
+select e.employee_id,
+       e.first_name,
+       e.salary,
+       e.phone_number,
+       e.manager_id,
+       m.employee_id,
+       m.first_name,
+       m.phone_number
+from employees e, employees m
+where e.manager_id=m.employee_id;
+
+
+
+
+
+
 
 
 
