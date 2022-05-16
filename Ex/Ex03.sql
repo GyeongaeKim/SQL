@@ -137,15 +137,3 @@ where e.manager_id=m.employee_id;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
