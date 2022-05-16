@@ -16,11 +16,11 @@ order by department_name asc, employee_id desc;
 --현재업무(job_title)를 사번(employee_id) 오름차순 으로 정렬하세요.
 --부서가 없는 Kimberely(사번 178)은 표시하지 않습니다.
 --(106건)
-select employee_id,
-       first_name,
-       salary,
-       department_name
-       job_title
+select e.employee_id,
+       e.first_name,
+       e.salary,
+       d.department_name,
+       j.job_title
 from employees e, departments d, jobs j
 where e.department_id=d.department_id and e.job_id=j.job_id
 order by employee_id asc;
@@ -29,7 +29,14 @@ order by employee_id asc;
 
 --문제2-1.문제2에서 부서가 없는 Kimberely(사번 178)까지 표시해 보세요
 --(107건)
---
+select e.employee_id,
+       e.first_name,
+       e.salary,
+       d.department_name,
+       j.job_title
+from employees e, departments d, jobs j
+where e.department_id=d.department_id(+) and e.job_id=j.job_id
+order by employee_id asc;
 
 
 
@@ -50,7 +57,13 @@ order by l.location_id asc;
 
 --문제3-1.문제3에서 부서가 없는 도시도 표시합니다.
 --(43건)
-
+select l.location_id,
+       l.city,
+       d.department_name,
+       d.department_id
+from locations l, departments d
+where l.location_id=d.location_id(+)
+order by l.location_id asc;
 
 
 
@@ -68,7 +81,14 @@ order by r.region_name asc, c.country_name desc;
 --문제5.자신의 매니저보다 채용일(hire_date)이 빠른 사원의 사번(employee_id), 이름(first_name)과
 --채용일(hire_date), 매니저이름(first_name), 매니저입사일(hire_date)을 조회하세요.
 --(37건)
-
+select em.employee_id 사번,
+       em.first_name 이름,
+       em.hire_date 채용일,
+       ma.first_name 매니저이름,
+       ma.hire_date 매니저입사일
+from employees em, employees ma
+where em.manager_id=ma.employee_id
+      and em.hire_date<ma.hire_date;
 
 
 
@@ -109,25 +129,33 @@ where e.employee_id=jh.employee_id and jh.job_id='AC_ACCOUNT';
 --매니저(manager)의 이름(first_name), 위치(locations)한 도시(city), 나라(countries)의 이름(countries_name)
 --그리고 지역구분(regions)의 이름(resion_name)까지 전부 출력해 보세요.
 --(11건)
-select d.department_id,
-       d.department_name,
-       e.first_name,
-       l.city,
-       c.country_name,
-       r.region_name
-from departments d, employees e, locations l, countries c, regions r
-where d.department_id=e.department_id
-      and d.manager_id=e.manager_id
-      and d.location_id=l.location_id 
-      and l.country_id=l.country_id
-      and c.region_id=r.region_id;
-group by d.department_id;
+select de.department_id,
+       de.department_name,
+       ma.first_name,
+       lo.city,
+       co.country_name,
+       re.region_name
+from employees ma, departments de, locations lo, countries co, regions re
+where de.manager_id=ma.employee_id
+      and de.location_id=lo.location_id 
+      and lo.country_id=co.country_id
+      and co.region_id=re.region_id;
 
 
 
 
-문제9.
-각 사원(employee)에 대해서 사번(employee_id), 이름(first_name), 부서명
-(department_name), 매니저(manager)의 이름(first_name)을 조회하세요.
-부서가 없는 직원(Kimberely)도 표시합니다.
-(106명)
+--문제9. 각 사원(employee)에 대해서 사번(employee_id), 이름(first_name), 
+--부서명(department_name), 매니저(manager)의 이름(first_name)을 조회하세요.
+--부서가 없는 직원(Kimberely)도 표시합니다.
+--(106명)
+select em.employee_id 사번,
+       em.first_name 이름,
+       de.department_name 부서명,
+       ma.first_name 매니저이름
+from employees em, departments de, employees ma
+where em.manager_id=ma.employee_id
+      and em.department_id=de.department_id(+);
+
+
+
+
