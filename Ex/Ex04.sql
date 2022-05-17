@@ -190,11 +190,45 @@ where e.department_id=s.department_id
     and e.salary=s.salary;
 
 
+-- 각 부서별로 최고급여를 받는 사원을 출력하세요
+--조건절로 구하기
+--1)부서별 최고급여
+select department_id,
+       max(salary)
+       --first_name 이름을 넣으면 오류가 난다(group by때문에)
+from employees
+group by department_id;
 
+--2)조건절 이용하여 값 구하기
+select first_name,
+       salary,
+       department_id
+from employees
+where (department_id, salary) in (select department_id,
+                                         max(salary)
+                                  from employees
+                                  group by department_id);
 
+-- 각 부서별로 최고급여를 받는 사원을 출력하세요
+--테이블로 구하기
+--1)부서별 최고급여
+select max(salary),
+       department_id
+from employees
+group by department_id;
 
-
-
+--2)테이블 이용하여 값 구하기
+select e.first_name,
+       e.salary,
+       e.department_id,
+       s.department_id,
+       s.maxSalary
+from employees e, (select max(salary) maxSalary,
+                          department_id
+                   from employees
+                   group by department_id) s
+where e.department_id=s.department_id
+      and e.salary=s.maxSalary;
 
 
 
