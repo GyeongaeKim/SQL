@@ -17,16 +17,26 @@ order by salary desc;
 --(51건)
 select avg(salary) from employees; --평균급여6461.83...
 select max(salary) from employees; --최대급여24000
+select avg(salary) avgSalary, max(salary) maxSalary from employees;
 
 select employee_id 직원번호,
        first_name 이름,
        salary 급여
-from employees
+from employees 
 where salary>=(select avg(salary) from employees)
     and salary<=(select max(salary) from employees)
 order by salary asc;
 
-
+select employee_id 직원번호,
+       first_name 이름,
+       salary 급여,
+       round(avgSalary) 평균급여,
+       maxSalary 최대급여
+from employees e, (select avg(salary) avgSalary, max(salary) maxSalary 
+                   from employees) ma
+where e.salary>=ma.avgSalary
+      and e.salary<=ma.maxSalary
+order by salary asc;
 
 
 
