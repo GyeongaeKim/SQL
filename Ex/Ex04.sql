@@ -236,6 +236,96 @@ where e.department_id=s.department_id
 
 
 
+/********************************
+*** rownum ***
+********************************/
+--■ rownum : 질의의 결과에 가상으로 부여되는 Oracle의 가상(Pseudo)의 Column (일렬번호)
+
+-- 급여를 가장 많이 받는 5명의 직원의 이름을 출력하시오.
+select rownum,
+       employee_id,
+       first_name,
+       salary
+from employees
+order by salary desc; --정렬시 rownum이 섞인다.
+
+
+select rownum,
+       ot.employee_id,
+       ot.first_name,
+       ot.salary
+from (select employee_id,
+             first_name,
+             salary
+      from employees
+      order by salary desc) ot; --정렬된 테이블을 사용하여 rownum매겨준다.
+
+select rownum,
+       ot.employee_id,
+       ot.first_name,
+       ot.salary
+from (select employee_id,
+             first_name,
+             salary
+      from employees
+      order by salary desc) ot
+where rownum>=1 and rownum<=5;  --1~5등만 출력
+
+
+select rownum,
+       ot.employee_id,
+       ot.first_name,
+       ot.salary,
+       ot.phone_number
+from (select employee_id,
+             first_name,
+             salary,
+             phone_number
+      from employees
+      order by salary desc) ot
+where rownum>=1     --1부터 시작하지 않으면, 안됨.. 
+    and rownum<=5;
+
+
+
+select ort.rn,
+       ort.employee_id,
+       ort.first_name,
+       ort.salary
+from (select rownum rn,
+             ot.employee_id,
+             ot.first_name,
+             ot.salary
+      from (select employee_id,
+                   first_name,
+                   salary
+            from employees
+            order by salary desc) ot
+      ) ort  
+where rn>=11 and rn<=15;
+
+
+
+-- 07년에 입사한 직원중 급여가 많은 직원중 3에서 7등의 이름 급여 입사일은?
+select ort.rn,
+       ort.first_name,
+       ort.salary,
+       ort.hire_date
+from (select rownum rn,
+             first_name,
+             salary,
+             hire_date
+      from (select first_name,
+                   salary,
+                   hire_date
+            from employees
+            where to_char(hire_date, 'YYYY')=2007
+            order by salary desc) ot
+      ) ort
+where rn>=3 and rn<=7;
+
+
+
 
 
 
