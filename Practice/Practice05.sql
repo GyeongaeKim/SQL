@@ -52,23 +52,29 @@ where (department_id, salary)
 --매니저별 평균급여가 5000이상만 출력합니다.
 ---매니저별 평균급여의 내림차순으로 출력합니다.
 ---매니저별 평균급여는 소수점 첫째자리에서 반올림
-select round(avg(salary)), min(salary), max(salary), manager_id
+select round(avg(salary)) avgSal, min(salary) minSal, max(salary) maxSal, manager_id
 from employees
+where to_char(hire_date, 'yyyy')>=2005
 group by manager_id
 having avg(salary)>=5000
-order by avg(salary) desc;
-
-select e.manager_id,
-       m.first_name
-       --avg(salary),
-       --min(salary),
-       --max(salary)
-from employees e, employees m
-where e.manager_id=m.first_name;
+order by avgSal desc;
 
 
-
-select hire_date from employees where to_char(hire_date, 'YYYY')>=2005;
+select m.manager_id,
+       e.first_name,
+       m.avgSal,
+       m.minSal,
+       m.maxSal
+from employees e, (select manager_id,
+                          round(avg(salary), 1) avgSal,
+                          min(salary) minSal,
+                          max(salary) maxSal
+                    from employees
+                    where to_char(hire_date, 'yyyy')>=2005
+                    group by manager_id
+                    having avg(salary)>=5000
+                    order by avgSal desc) m
+where e.employee_id = m.manager_id;
 
 
 
