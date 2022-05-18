@@ -328,6 +328,14 @@ where rn>=3 and rn<=7;
 
 
 
+--
+select * from employees
+where hire_date like '07%';
+
+select * from employees
+where hire_date>='07/01/01' and hire_date<='07/12/31';
+
+
 
 
 
